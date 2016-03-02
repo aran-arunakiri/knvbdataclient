@@ -1,0 +1,65 @@
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+    }
+}
+plugins {
+    id "com.jfrog.bintray" version "1.5"
+}
+group 'nl.talentovoetbal.knvbdataclient.model.KNVBDataclient'
+version '0.1'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+    maven {
+        url  "http://dl.bintray.com/mikaelhg/public"
+    }
+}
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            groupId 'org.jfrog.gradle.sample'
+            artifactId 'gradle-project'
+            version '1.1'
+        }
+    }
+}
+bintray {
+    user = 'gameface83'
+    key = 'df996321b93a5c65a2316c41a3e7a49bf418420e'
+    publications = ['MyPublication']
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'nl.talentovoetbal.knvbdataclient'
+        userOrg = user
+        licenses = ['Apache-1.0']
+        vcsUrl = 'https://github.com/bintray/gradle-bintray-plugin.git'
+        version {
+            name = '0.1'
+            desc = 'knvbdataclient'
+        }
+    }
+}
+dependencies {
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup.okhttp3:okhttp:3.0.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.0-RC1'
+    compile 'com.jakewharton.retrofit:retrofit1-okhttp3-client:1.0.2'
+    compile 'commons-codec:commons-codec:1.10'
+    compile 'com.google.code.gson:gson:2.5'
+    compile 'org.slf4j:slf4j-api:1.7.13'
+    compile 'org.slf4j:slf4j-simple:1.7.13'
+    compile 'io.mikael:urlbuilder:2.0.5'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
